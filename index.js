@@ -38,7 +38,7 @@ server.get('/api/users/:id', (req, res) => {
     // }
     db.findById(userId)
     .then(user => {
-        if(user.length === 0){
+        if(!user){
             res.status(404).json({message: "The user with the specified ID does not exist."})
             return;
         }
@@ -84,8 +84,8 @@ server.put('/api/users/:id', (req, res) => {
         return;
     }
     db.update(userId, {name, bio})
-    .then(res => {
-        if(res == 0) {
+    .then(user => {
+        if(!user) {
             sendUserError(404, "User with specified ID does not exist", res);
             return;
         }
@@ -95,7 +95,7 @@ server.put('/api/users/:id', (req, res) => {
     })
     db.findById(userId)
     .then(user => {
-        if(user.length === 0) {
+        if(!user) {
             sendUserError(404, 'User with specified ID not found', res);
             return;
         }
